@@ -1,16 +1,29 @@
 pipeline {
   agent any
   stages{
-       stage ('Clean up'){
+       stage ("Clean up"){
         steps{
-            delereDir()
+            deleteDir()
         }
         stage("Clone Repo"){
             steps{
                sh "git clone https://github.com/IBraun888/jenkins_hello_world.git" 
             }
         }
-        stage("Build")
+        stage("Build"){
+            steps{
+                dir('jenkins-hello-world'){
+                    sh "mvn clean install"
+                }
+            }
+        }
+        stage("Test"){
+            steps{
+                 dir('jenkins-hello-world'){
+                    sh "mvn test"
+            }
+        }
     }
-} 
+}   
+}
   
